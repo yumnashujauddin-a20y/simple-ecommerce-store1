@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+
+{% block title %}
+ShopEasy - Home
+{% endblock %}
+
+
+{% block content %}
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            Find What You Love
+        </h1>
+
+        <p>
+            Discover amazing products at great prices.
+        </p>
+
+
+        <form
+            method="GET"
+            action="{% url 'home' %}"
+            class="search-form"
+        >
+
+            <input
+                type="text"
+                name="q"
+                value="{{ query }}"
+                placeholder="Search for products..."
+            >
+
+            <button type="submit">
+                🔍 Search
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<section class="products-section">
+
+    <div class="section-header">
+
+        <p class="section-label">
+            OUR COLLECTION
+        </p>
+
+        {% if query %}
+
+            <h2>
+                Search Results for "{{ query }}"
+            </h2>
+
+        {% else %}
+
+            <h2>
+                Latest Products
+            </h2>
+
+        {% endif %}
+
+    </div>
+
+
+    {% if products %}
+
+        <div class="product-grid">
+
+            {% for product in products %}
+
+                <div class="product-card">
+
+                    <div class="product-image">
+
+                        {% if product.image %}
+
+                            <img
+                                src="{{ product.image.url }}"
+                                alt="{{ product.name }}"
+                            >
+
+                        {% else %}
+
+                            <div class="no-image">
+                                🛍️
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="product-info">
+
+                        <h3>
+                            {{ product.name }}
+                        </h3>
+
+                        <p class="product-description">
+                            {{ product.description|truncatechars:100 }}
+                        </p>
+
+
+                        <div class="product-bottom">
+
+                            <span class="price">
+                                ₹{{ product.price }}
+                            </span>
+
+                            {% if product.stock > 0 %}
+
+                                <span class="stock available">
+                                    In Stock
+                                </span>
+
+                            {% else %}
+
+                                <span class="stock out">
+                                    Out of Stock
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="product-actions">
+
+                            <a
+                                href="{% url 'product_detail' product.id %}"
+                                class="view-btn"
+                            >
+                                View Details
+                            </a>
+
+
+                            {% if product.stock > 0 %}
+
+                                <a
+                                    href="{% url 'add_to_cart' product.id %}"
+                                    class="cart-btn"
+                                >
+                                    🛒 Add to Cart
+                                </a>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+        <div class="empty-products">
+
+            <div class="empty-icon">
+                🔍
+            </div>
+
+            {% if query %}
+
+                <h3>
+                    No products found
+                </h3>
+
+                <p>
+                    We couldn't find any products matching
+                    "{{ query }}".
+                </p>
+
+                <a
+                    href="{% url 'home' %}"
+                    class="view-btn"
+                >
+                    View All Products
+                </a>
+
+            {% else %}
+
+                <h3>
+                    No products available
+                </h3>
+
+                <p>
+                    Add products from the Django admin panel.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

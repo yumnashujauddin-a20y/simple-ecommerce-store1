@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}
+Order Successful - ShopEasy
+{% endblock %}
+
+
+{% block content %}
+
+<div class="success-page">
+
+    <div class="success-icon">
+        ✓
+    </div>
+
+    <h1>
+        Order Placed Successfully!
+    </h1>
+
+    <p>
+        Thank you for shopping with ShopEasy.
+    </p>
+
+    <p>
+        Your order number is
+        <strong>
+            #{{ order.id }}
+        </strong>
+    </p>
+
+    <div class="success-actions">
+
+        <a
+            href="{% url 'orders' %}"
+            class="cart-btn"
+        >
+            View My Orders
+        </a>
+
+        <a
+            href="{% url 'home' %}"
+            class="view-btn"
+        >
+            Continue Shopping
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

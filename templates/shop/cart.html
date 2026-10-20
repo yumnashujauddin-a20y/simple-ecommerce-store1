@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block title %}
+Shopping Cart - ShopEasy
+{% endblock %}
+
+
+{% block content %}
+
+<section class="cart-page">
+
+    <div class="cart-header">
+
+        <div>
+
+            <p class="section-label">
+                YOUR SHOPPING BAG
+            </p>
+
+            <h1>
+                Shopping Cart
+            </h1>
+
+        </div>
+
+        <a
+            href="{% url 'home' %}"
+            class="continue-btn"
+        >
+            ← Continue Shopping
+        </a>
+
+    </div>
+
+
+    {% if cart_items %}
+
+        <div class="cart-layout">
+
+
+            <div class="cart-items">
+
+                {% for item in cart_items %}
+
+                    <div class="cart-item">
+
+                        <div class="cart-product-image">
+
+                            {% if item.product.image %}
+
+                                <img
+                                    src="{{ item.product.image.url }}"
+                                    alt="{{ item.product.name }}"
+                                >
+
+                            {% else %}
+
+                                <span>
+                                    🛍️
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="cart-product-info">
+
+                            <h3>
+                                {{ item.product.name }}
+                            </h3>
+
+                            <p>
+                                ₹{{ item.product.price }}
+                                each
+                            </p>
+
+                            <a
+                                href="{% url 'remove_from_cart' item.product.id %}"
+                                class="remove-btn"
+                            >
+                                Remove
+                            </a>
+
+                        </div>
+
+
+                        <div class="quantity-controls">
+
+                            <a
+                                href="{% url 'update_cart' item.product.id %}?action=decrease"
+                                class="quantity-btn"
+                            >
+                                −
+                            </a>
+
+                            <span>
+                                {{ item.quantity }}
+                            </span>
+
+                            <a
+                                href="{% url 'update_cart' item.product.id %}?action=increase"
+                                class="quantity-btn"
+                            >
+                                +
+                            </a>
+
+                        </div>
+
+
+                        <div class="item-total">
+
+                            ₹{{ item.item_total }}
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div class="order-summary">
+
+                <h2>
+                    Order Summary
+                </h2>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Items
+                    </span>
+
+                    <span>
+                        {{ cart_items|length }}
+                    </span>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Delivery
+                    </span>
+
+                    <span class="free">
+                        FREE
+                    </span>
+
+                </div>
+
+
+                <hr>
+
+
+                <div class="summary-total">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <strong>
+                        ₹{{ total }}
+                    </strong>
+
+                </div>
+
+
+                <a
+                    href="{% url 'checkout' %}"
+                    class="checkout-btn"
+                >
+                    Proceed to Checkout →
+                </a>
+
+            </div>
+
+        </div>
+
+
+    {% else %}
+
+        <div class="empty-cart">
+
+            <div class="empty-cart-icon">
+                🛒
+            </div>
+
+            <h2>
+                Your cart is empty
+            </h2>
+
+            <p>
+                Looks like you haven't added anything yet.
+            </p>
+
+            <a
+                href="{% url 'home' %}"
+                class="cart-btn"
+            >
+                Start Shopping
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

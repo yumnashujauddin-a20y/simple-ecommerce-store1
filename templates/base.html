@@ -1,0 +1,233 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% block title %}
+            ShopEasy
+        {% endblock %}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/style.css' %}"
+    >
+
+</head>
+
+
+<body>
+
+<nav class="navbar">
+
+    <div class="nav-container">
+
+        <!-- Logo -->
+        <a
+            href="{% url 'home' %}"
+            class="logo"
+        >
+            🛍️ ShopEasy
+        </a>
+
+
+        <!-- Navigation -->
+        <div class="nav-links">
+
+            <!-- Home -->
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+
+            <!-- Cart -->
+            <a href="{% url 'cart' %}">
+                🛒 Cart
+            </a>
+
+
+            {% if user.is_authenticated %}
+
+                <!-- My Orders -->
+                <a href="{% url 'orders' %}">
+                    My Orders
+                </a>
+
+
+                <!-- Admin -->
+                {% if user.is_staff %}
+
+                    <a href="{% url 'admin:index' %}">
+                        ⚙️ Admin
+                    </a>
+
+                {% endif %}
+
+
+                <!-- Username -->
+                <span class="welcome">
+                    Hi, {{ user.username }}
+                </span>
+
+
+                <!-- Logout -->
+                <a href="{% url 'logout' %}">
+                    Logout
+                </a>
+
+
+            {% else %}
+
+                <!-- Login -->
+                <a href="{% url 'login' %}">
+                    Login
+                </a>
+
+
+                <!-- Register -->
+                <a
+                    href="{% url 'register' %}"
+                    class="register-btn"
+                >
+                    Register
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- Messages -->
+
+{% if messages %}
+
+    <div class="messages">
+
+        {% for message in messages %}
+
+            <div class="message {{ message.tags }}">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% endif %}
+
+
+<!-- Main Content -->
+
+<main>
+
+    {% block content %}
+
+    {% endblock %}
+
+</main>
+
+
+<!-- Footer -->
+
+<footer class="footer">
+
+    <div class="footer-content">
+
+
+        <!-- Store Information -->
+
+        <div>
+
+            <h3>
+                🛍️ ShopEasy
+            </h3>
+
+            <p>
+                Your simple and trusted online store.
+            </p>
+
+        </div>
+
+
+        <!-- Quick Links -->
+
+        <div>
+
+            <h4>
+                Quick Links
+            </h4>
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'cart' %}">
+                Cart
+            </a>
+
+            {% if user.is_authenticated %}
+
+                <a href="{% url 'orders' %}">
+                    My Orders
+                </a>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- Customer Service -->
+
+        <div>
+
+            <h4>
+                Customer Service
+            </h4>
+
+            <p>
+                Fast & Secure Shopping
+            </p>
+
+            <p>
+                Easy Returns
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- Footer Bottom -->
+
+    <div class="footer-bottom">
+
+        © 2026 ShopEasy.
+        All rights reserved.
+
+    </div>
+
+</footer>
+
+
+<!-- JavaScript -->
+
+<script src="{% static 'js/script.js' %}"></script>
+
+</body>
+
+</html>

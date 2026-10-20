@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ product.name }} - ShopEasy
+{% endblock %}
+
+
+{% block content %}
+
+<div class="detail-container">
+
+    <div class="detail-image">
+
+        {% if product.image %}
+
+            <img
+                src="{{ product.image.url }}"
+                alt="{{ product.name }}"
+            >
+
+        {% else %}
+
+            <div class="large-no-image">
+                🛍️
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <div class="detail-info">
+
+        <p class="section-label">
+            PRODUCT
+        </p>
+
+        <h1>
+            {{ product.name }}
+        </h1>
+
+        <div class="detail-price">
+            ₹{{ product.price }}
+        </div>
+
+        <p class="detail-description">
+            {{ product.description }}
+        </p>
+
+
+        {% if product.stock > 0 %}
+
+            <p class="stock available">
+                ✓ {{ product.stock }} items available
+            </p>
+
+            <a
+                href="{% url 'add_to_cart' product.id %}"
+                class="cart-btn large-btn"
+            >
+                🛒 Add to Cart
+            </a>
+
+        {% else %}
+
+            <p class="stock out">
+                Out of Stock
+            </p>
+
+        {% endif %}
+
+
+        <br>
+
+        <a
+            href="{% url 'home' %}"
+            class="back-link"
+        >
+            ← Back to Products
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

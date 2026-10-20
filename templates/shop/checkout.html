@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}
+Checkout - ShopEasy
+{% endblock %}
+
+
+{% block content %}
+
+<section class="checkout-page">
+
+    <div class="checkout-header">
+
+        <p class="section-label">
+            SECURE CHECKOUT
+        </p>
+
+        <h1>
+            Complete Your Order
+        </h1>
+
+    </div>
+
+
+    <div class="checkout-layout">
+
+
+        <div class="checkout-form">
+
+            <h2>
+                Delivery Information
+            </h2>
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                {% if form.errors %}
+
+                    <div class="form-errors">
+                        Please correct the errors below.
+                    </div>
+
+                {% endif %}
+
+
+                {% for field in form %}
+
+                    <div class="form-group">
+
+                        <label>
+                            {{ field.label }}
+                        </label>
+
+                        {{ field }}
+
+                        {% if field.errors %}
+
+                            <div class="field-error">
+                                {{ field.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endfor %}
+
+
+                <button
+                    type="submit"
+                    class="checkout-btn"
+                >
+                    Place Order
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <div class="checkout-summary">
+
+            <h2>
+                Your Order
+            </h2>
+
+
+            {% for item in cart_items %}
+
+                <div class="checkout-item">
+
+                    <span>
+                        {{ item.product.name }}
+                        × {{ item.quantity }}
+                    </span>
+
+                    <strong>
+                        ₹{{ item.item_total }}
+                    </strong>
+
+                </div>
+
+            {% endfor %}
+
+
+            <hr>
+
+
+            <div class="summary-total">
+
+                <span>
+                    Total
+                </span>
+
+                <strong>
+                    ₹{{ total }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

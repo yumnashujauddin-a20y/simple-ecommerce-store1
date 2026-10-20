@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Orders - ShopEasy
+{% endblock %}
+
+
+{% block content %}
+
+<section class="orders-page">
+
+    <div class="orders-header">
+
+        <p class="section-label">
+            YOUR ACCOUNT
+        </p>
+
+        <h1>
+            My Orders
+        </h1>
+
+    </div>
+
+
+    {% if orders %}
+
+        <div class="orders-list">
+
+            {% for order in orders %}
+
+                <div class="order-card">
+
+                    <div class="order-top">
+
+                        <div>
+
+                            <h3>
+                                Order #{{ order.id }}
+                            </h3>
+
+                            <p>
+                                {{ order.created_at|date:"d M Y, h:i A" }}
+                            </p>
+
+                        </div>
+
+
+                        <span class="order-status">
+                            {{ order.status }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="order-products">
+
+                        {% for item in order.items.all %}
+
+                            <div class="order-product">
+
+                                <span>
+                                    {{ item.product.name }}
+                                    × {{ item.quantity }}
+                                </span>
+
+                                <span>
+                                    ₹{{ item.price }}
+                                </span>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <div class="order-bottom">
+
+                        <strong>
+                            Total: ₹{{ order.total_amount }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+        <div class="empty-products">
+
+            <div class="empty-icon">
+                📦
+            </div>
+
+            <h3>
+                No orders yet
+            </h3>
+
+            <p>
+                Your orders will appear here after checkout.
+            </p>
+
+            <a
+                href="{% url 'home' %}"
+                class="cart-btn"
+            >
+                Start Shopping
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}
